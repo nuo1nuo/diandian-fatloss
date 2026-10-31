@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="点点减脂">
+<meta name="theme-color" content="#16a085">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2316a085'/%3E%3Ctext x='50' y='66' font-size='52' text-anchor='middle' fill='white'%3E%E7%82%B9%3C/text%3E%3C/svg%3E">
+<title>点点减脂打卡</title>
+<style>
+:root{--bg:#f3f6f5;--card:#fff;--tx:#1d2b29;--sub:#6b7b78;--pri:#16a085;--pri2:#e6f6f2;--line:#e3eae8;--ok:#1e9e5a;--warn:#e08a00;--bad:#d64545;--sh:0 1px 3px rgba(0,0,0,.06)}
+@media(prefers-color-scheme:dark){:root{--bg:#10171a;--card:#1a2427;--tx:#e8f0ee;--sub:#92a5a1;--pri:#2cc1a1;--pri2:#1b3a35;--line:#2a3639;--sh:none}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 -apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",sans-serif}
+body{padding-bottom:calc(72px + env(safe-area-inset-bottom))}
+header{position:sticky;top:0;z-index:5;background:var(--pri);color:#fff;padding:calc(10px + env(safe-area-inset-top)) 14px 10px}
+header h1{font-size:17px;margin:0;font-weight:600}
+.nav{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.nav button{background:rgba(255,255,255,.2);border:0;color:#fff;border-radius:8px;width:34px;height:30px;font-size:16px}
+.nav .d{text-align:center;font-size:14px}.nav .d b{font-size:16px}
+main{padding:12px;max-width:640px;margin:0 auto}
+.card{background:var(--card);border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:var(--sh)}
+.card h2{font-size:15px;margin:0 0 10px;display:flex;justify-content:space-between;align-items:center}
+.card h2 small{font-weight:400;color:var(--sub);font-size:12px}
+.chips{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.chip{border-radius:10px;padding:8px 2px;text-align:center;background:var(--bg);font-size:12px;color:var(--sub)}
+.chip b{display:block;font-size:15px;color:var(--tx)}.chip.ok{background:var(--pri2)}.chip.ok b{color:var(--ok)}
+.chip.bad b{color:var(--bad)}
+.badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;color:#fff;background:var(--sub)}
+.badge.ok{background:var(--ok)}.badge.warn{background:var(--warn)}
+.meal{display:flex;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.meal:first-of-type{border-top:0}
+.cb{width:26px;height:26px;border-radius:50%;border:2px solid var(--line);flex:none;margin-top:2px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
+.on>.cb,.cb.on{background:var(--pri);border-color:var(--pri)}
+.meal .t{flex:1;min-width:0}.meal .t b{font-size:14px}.meal .t span{color:var(--sub);font-size:12px}
+.meal p{margin:2px 0 0;font-size:13px;color:var(--tx)}
+.meal .k{width:64px;flex:none;text-align:right}
+input[type=number],input[type=text],input[type=date],textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:9px 10px;font-size:16px;background:var(--bg);color:var(--tx);font-family:inherit}
+.k input{padding:6px;text-align:right;font-size:14px}
+.row{display:flex;gap:10px}.row>div{flex:1}
+label{font-size:12px;color:var(--sub);display:block;margin:0 0 3px}
+.bar{height:8px;background:var(--bg);border-radius:6px;overflow:hidden;margin:6px 0}
+.bar i{display:block;height:100%;background:var(--pri);border-radius:6px;transition:width .3s}
+.water{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}
+.wn{border:1px solid var(--line);border-radius:10px;padding:6px 2px;text-align:center;font-size:12px;color:var(--sub)}
+.wn b{display:block;color:var(--tx);font-size:13px}.wn.on{background:var(--pri);border-color:var(--pri);color:#fff}.wn.on b{color:#fff}
+.btn{border:0;background:var(--pri);color:#fff;border-radius:10px;padding:9px 14px;font-size:14px}
+.btn.g{background:var(--pri2);color:var(--pri)}
+.btn.r{background:transparent;color:var(--bad);border:1px solid var(--bad)}
+.tl{position:relative;padding-left:16px;border-left:2px solid var(--line);margin-left:6px}
+.tl>div{position:relative;padding:0 0 12px 8px}
+.tl>div:before{content:"";position:absolute;left:-23px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--pri)}
+.tl b{font-size:13px}.tl span{display:block;font-size:12px;color:var(--sub)}
+.tl .now:before{box-shadow:0 0 0 4px var(--pri2)}
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:6;display:flex;background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+.tabbar button{flex:1;border:0;background:none;padding:8px 0 6px;color:var(--sub);font-size:11px}
+.tabbar button i{display:block;font-style:normal;font-size:20px;line-height:1.2}
+.tabbar button.on{color:var(--pri);font-weight:600}
+.pg{display:none}.pg.on{display:block}
+details{border-top:1px solid var(--line);padding:8px 0}
+details:first-of-type{border-top:0}
+summary{font-size:14px;font-weight:600;list-style:none;cursor:pointer;display:flex;justify-content:space-between}
+summary::-webkit-details-marker{display:none}summary:after{content:"›";transform:rotate(90deg);color:var(--sub)}
+details[open] summary:after{transform:rotate(-90deg)}
+.sm{font-size:13px;color:var(--sub);white-space:pre-line}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.gd{aspect-ratio:1;border-radius:8px;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;color:var(--sub);border:1.5px solid transparent}
+.gd b{font-size:13px;color:var(--tx)}.gd.ok{background:var(--ok)}.gd.ok b,.gd.ok{color:#fff}
+.gd.part{background:#f7d58b}.gd.part b{color:#5a3d00}.gd.today{border-color:var(--pri)}
+.gd.fut{opacity:.45}
+.wk{font-size:11px;color:var(--sub);text-align:center}
+.exc{border-left:4px solid var(--pri);padding:8px 10px;background:var(--pri2);border-radius:8px;margin-bottom:8px}
+.exc b{font-size:15px}.exc .m{font-size:13px;color:var(--sub);margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:12px}th,td{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left;vertical-align:top}th{color:var(--sub);font-weight:500}
+.warn{background:#fff4e0;color:#7a4b00;border-radius:10px;padding:10px;font-size:12px}
+@media(prefers-color-scheme:dark){.warn{background:#3a2e12;color:#f2cf8a}.gd.part{background:#7a5c14}.gd.part b{color:#ffe7ad}}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:rgba(0,0,0,.8);color:#fff;padding:8px 16px;border-radius:99px;font-size:13px;display:none;z-index:9}
+</style>
+</head>
+<body>
+<header>
+ <h1>点点减脂打卡 · 8周计划</h1>
+ <div class="nav"><button id="prev">‹</button><div class="d" id="hd"></div><button id="next">›</button></div>
+</header>
+<main>
+<section class="pg on" id="p-today"></section>
+<section class="pg" id="p-plan"></section>
+<section class="pg" id="p-train"></section>
+<section class="pg" id="p-trend"></section>
+</main>
+<nav class="tabbar">
+ <button data-p="today" class="on"><i>✅</i>今日</button>
+ <button data-p="plan"><i>🍱</i>食谱</button>
+ <button data-p="train"><i>🏊</i>运动</button>
+ <button data-p="trend"><i>📈</i>进度</button>
+</nav>
+<div class="toast" id="toast"></div>
+<script>
+const D={"days": [{"d": "周一", "meals": [{"n": "早餐", "t": "07:30", "k": 320, "f": "水煮蛋2个 + 无糖豆浆200ml + 燕麦片25g(热水冲泡) + 蓝莓30g"}, {"n": "午餐", "t": "12:00", "k": 460, "f": "鸡胸肉150g(生重,煎/烤,油3ml) + 糙米饭150g(熟) + 西兰花150g+口蘑50g少油清炒 + 圣女果100g"}, {"n": "加餐", "t": "15:30", "k": 130, "f": "无糖希腊酸奶100g + 巴旦木5颗"}, {"n": "晚餐", "t": "18:00", "k": 445, "f": "清蒸鲈鱼200g(生重) + 凉拌菠菜200g(油3ml) + 紫薯150g(蒸) + 嫩豆腐紫菜汤(豆腐100g)"}], "tip": "游泳日(19:30)；蛋白吃够，晚餐18:00前吃完", "sub": ["早：鸡蛋→蛋白3个/嫩豆腐100g；豆浆→低脂牛奶200ml；燕麦→全麦面包1片；蓝莓→草莓/苹果半个", "午：鸡胸→去皮鸡腿肉150g/虾仁200g/龙利鱼200g；糙米→藜麦熟150g/红薯200g；西兰花→菜心/芥蓝/花菜", "加：希腊酸奶→无糖酸奶150g/低脂茅屋奶酪80g；巴旦木→核桃仁8g", "晚：鲈鱼→鳕鱼/龙利鱼/巴沙鱼；紫薯→红薯/南瓜250g"]}, {"d": "周二", "meals": [{"n": "早餐", "t": "07:30", "k": 315, "f": "全麦吐司2片(60g) + 煎蛋1个(油2ml) + 番茄1个 + 无糖豆浆150ml + 黑咖啡/无糖茶"}, {"n": "午餐", "t": "12:00", "k": 455, "f": "虾仁200g(生重) + 荞麦面干65g(煮熟) + 生菜彩椒200g(油3ml)"}, {"n": "加餐", "t": "15:30", "k": 130, "f": "苹果1个小(约150g) + 无糖酸奶80g"}, {"n": "晚餐", "t": "18:00", "k": 445, "f": "瘦牛肉(里脊/牛腱)130g(生重)炒芦笋200g(油4ml) + 藜麦熟120g + 煮毛豆(去壳)50g + 冬瓜汤1碗(不加油)"}], "tip": "慢跑日(19:30)；运动前不再进食，口渴小口喝水", "sub": ["早：吐司→全麦馒头1个(约70g)；煎蛋→水煮蛋/蛋白2个；番茄→黄瓜/圣女果；豆浆→低脂牛奶150ml", "午：虾仁→鸡胸130g/鱼片200g/鱿鱼200g；荞麦面→全麦面条干55g/红薯200g", "加：苹果→梨/橙子/猕猴桃；酸奶→无糖豆浆200ml", "晚：牛肉→羊里脊/去皮鸡腿肉150g；藜麦→糙米熟/小米饭；毛豆→嫩豆腐100g；冬瓜汤→白菜/紫菜汤"]}, {"d": "周三", "meals": [{"n": "早餐", "t": "07:30", "k": 305, "f": "鸡蛋1个+蛋白2个(水煮/少油炒) + 甜玉米1根(中) + 无糖豆浆200ml"}, {"n": "午餐", "t": "12:00", "k": 465, "f": "三文鱼100g(生重,煎/烤不加油) + 糙米饭150g(熟) + 西葫芦+秋葵200g(油3ml) + 圣女果100g"}, {"n": "加餐", "t": "15:30", "k": 125, "f": "草莓+蓝莓共120g + 核桃/杏仁12g"}, {"n": "晚餐", "t": "18:00", "k": 440, "f": "卤水豆腐(北豆腐)150g + 去皮鸡腿肉100g(生重) + 炒时蔬250g(油4ml) + 杂粮饭100g(熟)"}], "tip": "游泳间歇日(19:30)；碳水别省，不空腹下水", "sub": ["早：蛋/蛋白→嫩豆腐150g/无糖酸奶150g；玉米→蒸红薯120g/全麦馒头半个；豆浆→低脂牛奶", "午：三文鱼→青花鱼/鳟鱼100g，想更低脂可换鸡胸130g；糙米→杂粮饭/藜麦；西葫芦秋葵→芦笋/四季豆/菜心", "加：莓果→苹果/橙子/柚子；坚果→无盐花生10g/煮毛豆50g", "晚：北豆腐→豆腐干80g/鸡蛋2个；鸡腿→鸡胸/牛腱/虾仁；杂粮饭→糙米/紫薯100g"]}, {"d": "周四", "meals": [{"n": "早餐", "t": "07:30", "k": 330, "f": "燕麦30g煮粥 + 蛋白粉1勺(约25g) + 水煮蛋1个 + 香蕉半根(60g)"}, {"n": "午餐", "t": "12:00", "k": 445, "f": "鸡胸肉150g(生重) + 全麦意面干50g + 番茄酱汁(新鲜番茄150g+蒜,油3ml,不加糖) + 生菜100g"}, {"n": "加餐", "t": "15:30", "k": 130, "f": "无糖酸奶100g + 坚果10g"}, {"n": "晚餐", "t": "18:00", "k": 440, "f": "蒸鳕鱼200g + 藜麦熟140g + 蒜蓉西兰花200g(油4ml)"}], "tip": "间歇跑日(19:30，高强度)；晚餐吃够，当天不进一步减量", "sub": ["早：燕麦→无糖即食麦片/荞麦粥；蛋白粉→无糖希腊酸奶150g，或水煮蛋+蛋白1个；香蕉→苹果/蓝莓", "午：鸡胸→火鸡胸/鱼片/虾仁；全麦意面→荞麦面/全麦面条干50g；番茄酱汁→番茄炖蘑菇(无糖)", "加：酸奶→无糖豆浆200ml；坚果→巴旦木/核桃", "晚：鳕鱼→龙利鱼/巴沙鱼/鲈鱼；藜麦→糙米熟/小米饭；西兰花→花菜/芥蓝"]}, {"d": "周五", "meals": [{"n": "早餐", "t": "07:30", "k": 315, "f": "无糖豆浆250ml + 全麦面包2片(60g) + 煎蛋1个(油2ml)"}, {"n": "午餐", "t": "12:00", "k": 450, "f": "瘦猪里脊120g(生重) + 杂粮饭150g(熟) + 青菜200g豆腐100g汤(油3ml)"}, {"n": "加餐", "t": "15:30", "k": 130, "f": "黄瓜1根+圣女果100g + 无糖酸奶120g"}, {"n": "晚餐", "t": "18:00", "k": 450, "f": "清蒸鸡胸150g(生重)或虾仁200g + 烤南瓜200g + 紫薯120g + 凉拌木耳100g + 煮毛豆(去壳)50g"}], "tip": "游泳耐力日(19:30，匀速)；运动后只补水不加餐", "sub": ["早：豆浆→低脂牛奶250ml；面包→全麦馒头1个；煎蛋→水煮蛋/蛋白2个", "午：猪里脊→去皮鸡腿肉150g/牛里脊120g/鸡胸150g；杂粮饭→糙米/红薯200g；青菜豆腐汤→紫菜蛋花汤(少油)", "加：酸奶→无糖豆浆200ml/低脂奶酪；黄瓜圣女果→芹菜条/生菜", "晚：鸡胸/虾→鱼片200g/豆腐干100g；南瓜/紫薯→红薯/山药；木耳→香菇/金针菇/海带；毛豆→嫩豆腐100g"]}, {"d": "周六", "meals": [{"n": "早餐", "t": "07:30", "k": 325, "f": "水煮蛋2个 + 蒸紫薯100g + 低脂牛奶200ml"}, {"n": "午餐", "t": "12:00", "k": 450, "f": "瘦牛肉100g+虾仁100g(生重) + 糙米饭150g(熟) + 炒时蔬250g(油4ml)"}, {"n": "加餐", "t": "15:30", "k": 130, "f": "应季水果150g(苹果/橙/猕猴桃) + 坚果10g"}, {"n": "晚餐", "t": "18:00", "k": 440, "f": "清蒸鱼(龙利/鲈鱼)150g(生重) + 嫩豆腐100g + 荞麦面干50g做汤面 + 青菜150g(油3ml)"}], "tip": "慢跑日(19:30)；外出聚餐也按此份量，不额外加餐", "sub": ["早：鸡蛋→蛋白3个/嫩豆腐150g；紫薯→红薯/玉米半根；牛奶→无糖豆浆250ml", "午：牛肉→羊里脊/去皮鸡腿肉；虾→鱼片/鸡胸；糙米→杂粮饭/红薯200g", "加：水果→柚子/草莓/橙子等低糖应季水果；坚果→无盐花生/煮毛豆50g", "晚：鱼→任意白肉鱼/虾仁；豆腐→豆腐干/鸡蛋；荞麦面→全麦面条干50g/魔芋面+红薯100g"]}, {"d": "周日", "meals": [{"n": "早餐", "t": "07:30", "k": 330, "f": "燕麦30g煮粥(加豆浆/牛奶150ml) + 水煮蛋2个 + 草莓100g"}, {"n": "午餐", "t": "12:00", "k": 435, "f": "鸡胸肉或鱼150g(生重) + 杂粮饭150g(熟) + 绿叶菜300g(油4ml,叶菜可再加量)"}, {"n": "加餐", "t": "15:30", "k": 135, "f": "无糖希腊酸奶120g + 蓝莓50g"}, {"n": "晚餐", "t": "18:00", "k": 440, "f": "虾仁200g + 蔬菜汤(番茄/白菜/蘑菇300g) + 杂粮饭100g(熟) + 水煮蛋1个 + 油3ml"}], "tip": "快走恢复日(19:30)；晨起称重复盘，备下周食材", "sub": ["早：燕麦→全麦面包1片/蒸红薯100g；水煮蛋→蛋白3个/豆腐；草莓→蓝莓/橙子", "午：鸡胸/鱼→虾仁/瘦牛肉；杂粮饭→糙米/玉米1根；绿叶菜→任意叶菜", "加：希腊酸奶→无糖酸奶150g；蓝莓→苹果半个", "晚：虾仁→鱼片/鸡胸/豆腐200g；杂粮饭→蒸红薯100g/玉米半根；蔬菜汤→菌菇汤/紫菜汤"]}], "subs": [["鸡肉", "鸡胸肉150g(生)", "去皮鸡腿肉150g", "火鸡胸/兔肉150g", "鸡胸150g≈175千卡；去皮鸡腿150g≈180千卡", "33 / 27", "一律去皮；煎、烤、蒸、煮，不裹粉不油炸"], ["白肉鱼", "鲈鱼/鳕鱼/鱼 200g(生)", "龙利鱼/巴沙鱼200g", "鲷鱼/鲫鱼200g；水浸金枪鱼罐头100g", "≈170–210千卡", "30–36", "清蒸/水煮；不做糖醋、红烧；罐头选水浸、沥干汤汁"], ["高脂鱼", "三文鱼100g(生)", "青花鱼(鲭鱼)/鳟鱼100g", "白肉鱼200g + 核桃仁8g", "三文鱼100g≈210千卡", "20", "脂肪高，只用100g不加量；无高脂鱼时用核桃补不饱和脂肪"], ["虾/海鲜", "虾仁200g(生)", "鱿鱼/墨鱼200g", "鱼片200g或鸡胸150g", "虾仁200g≈170千卡；鱿鱼200g≈150千卡", "36 / 30", "海鲜过敏或买不到时直接换鱼/鸡胸"], ["红肉", "瘦牛肉(里脊/牛腱)130g(生)", "羊里脊130g", "去皮鸡腿肉150g", "≈140–160千卡", "26", "挑瘦肉、剔肥边；不用肥牛/五花"], ["猪肉", "瘦猪里脊120g(生)", "牛里脊120g", "去皮鸡腿肉150g/鸡胸150g", "≈170–180千卡", "25", "不吃五花、排骨、肉丸等加工品"], ["蛋类", "鸡蛋1个(≈72千卡)", "蛋白2个(≈35千卡)", "嫩豆腐100g(≈60千卡)/无糖豆浆250ml(≈75千卡)", "1个蛋≈蛋白2个蛋白量", "7 / 7 / 6 / 8", "蛋黄想少吃时用蛋白2个替代；每天整蛋不超过3个"], ["豆制品", "嫩豆腐100g；北豆腐/卤水豆腐150g", "豆腐干80g", "鸡蛋2个", "100g嫩豆腐≈60千卡；豆腐干80g≈110千卡", "6 / 12 / 14", "豆腐干选原味，不选卤味/辣条类"], ["奶制品", "无糖希腊酸奶100g(≈90千卡)", "无糖原味酸奶150g(≈100千卡)", "低脂茅屋奶酪80g(≈80千卡)；低脂牛奶250ml(≈110千卡)", "—", "10 / 6 / 10 / 8", "看配料表：只含生牛乳+菌种；一律不选含糖/风味酸奶；乳糖不耐受改无乳糖奶/豆浆"], ["豆浆/奶", "无糖豆浆200ml(≈60千卡)", "低脂牛奶200ml(≈90千卡)", "无糖酸奶100g(≈65千卡)", "—", "6–7", "配料表只含水+大豆；不选含糖豆奶"], ["燕麦/早餐谷物", "燕麦片25–30g", "无糖全麦麦片30g", "荞麦粥/杂粮粥(干米30g)", "≈105–115千卡", "4–5", "不选即食调味/水果燕麦（含糖）"], ["主食", "糙米饭150g(熟,≈165千卡)", "杂粮饭/藜麦熟150g", "蒸红薯/紫薯200g；玉米1根；南瓜400g", "≈165–180千卡", "4 / 3", "薯类、玉米同属主食，不与米饭叠加；不换白米饭、粥（升糖快）"], ["面食", "荞麦面干65g；全麦意面干50g", "全麦面条干55g", "魔芋面 + 蒸红薯100g", "≈200–215千卡", "8 / 6", "看配料表荞麦粉/全麦粉排第一；汤面汤不喝完"], ["面包", "全麦吐司/面包2片(60g≈150千卡)", "全麦馒头1个(70g≈165千卡)", "蒸红薯150g(≈130千卡)", "—", "5 / 6 / 2", "配料表第一位必须是全麦粉；不选夹心、奶油、甜面包"], ["薯类", "紫薯150g(蒸)", "红薯150g", "南瓜200g/山药200g/土豆150g", "≈130千卡/份", "2–3", "按主食计，不额外加；不炸不烤加糖"], ["杂粮", "藜麦熟120–140g", "糙米熟150g", "小米饭150g/煮玉米粒100g", "藜麦熟140g≈170千卡", "5 / 4", "买不到藜麦直接换糙米，量按“熟重”称"], ["蔬菜", "西兰花/菠菜/芦笋/西葫芦/秋葵等", "菜心/芥蓝/油麦菜/生菜/小白菜/花菜/四季豆", "菌菇类/黄瓜/番茄/冬瓜/木耳", "每100g≈20–30千卡，不限量", "2–3", "不用土豆、玉米、莲藕替代蔬菜（淀粉类，要按主食计）；少油清炒/白灼"], ["水果", "蓝莓/草莓/苹果/香蕉（≈150g)", "橙子/猕猴桃/柚子/梨", "圣女果200g", "1份≈150g≈60–80千卡", "1", "不换榴莲/荔枝/芒果/果干/果汁；睡前3小时后不吃水果"], ["坚果", "巴旦木5颗(≈35千卡)；坚果10g(≈60千卡)", "核桃仁2–3个(10g)", "无盐花生10g；没有坚果时用煮毛豆50g或无糖花生酱8g", "≈60千卡/10g", "2–3", "不选盐焗/糖衣/蜂蜜坚果；每天坚果合计≤25g"], ["蛋白粉", "乳清/植物蛋白粉1勺(25g≈95千卡)", "无糖希腊酸奶150g(≈135千卡)", "蛋白2个 + 无糖豆浆200ml(≈95千卡)", "—", "20 / 15 / 14", "没有蛋白粉时改用此项，蛋白量基本不变"], ["烹饪油", "橄榄油", "菜籽油/茶籽油/花生油", "不粘锅/空气炸锅/水煮", "等量替换", "—", "全天合计≤10ml，用量勺称量；不用动物油、黄油"], ["饮品", "白水、无糖茶、黑咖啡", "柠檬片水/淡绿茶/大麦茶(无糖)", "无糖气泡水", "0千卡", "—", "不换含糖饮料、奶茶、果汁、能量饮料；咖啡每天≤2杯、15点后不喝"]], "rule": "铁律：绿叶蔬菜每餐不限量（但不额外加油）；每天用油合计≤10ml；戒含糖饮料/油炸/外卖/甜点/酒精；三餐每餐含优质蛋白（加餐可无），全天≥100g；主食以糙米/杂粮/薯类为主，不吃精制米面（白米饭、白面包、白面条）；用餐顺序：蔬菜→蛋白→主食；晚餐后（18:30后）只喝水/无糖茶。克重均为生重（肉/鱼/虾/干面）或熟重（米饭/藜麦），按电子秤称量，热量为估算值，误差±5%内即可。", "ex": [["周一", "游泳（自由泳/蛙泳交替，连续游）", "75分钟", "19:30-20:45（晚餐后1.5h）", "≈575千卡", "中", "连续游，心率125-145；出水后马上补水；不空腹下水"], ["周二", "慢跑 + 快走", "50+20分钟", "19:30-20:40", "≈560千卡", "中", "配速以能说话为准；跑前热身5分钟、跑后拉伸5分钟；第1-2周用“跑2分钟+走1分钟”循环"], ["周三", "游泳（间歇：快游25m×16组，每组后慢游恢复）", "70分钟", "19:30-20:40", "≈610千卡", "中高", "组间慢游恢复，持续补水；不空腹下水；第1周×12组、第2周×14组"], ["周四", "间歇跑（热身10分钟 + 快跑1min+慢跑2min×12 + 放松，共55分钟）", "55分钟", "19:30-20:25", "≈550千卡", "中高", "跑前热身、跑后拉伸；夜跑选有灯光的人行道；第1周约×8组、第2周约×10组，第3周起×12组"], ["周五", "游泳（耐力，匀速）", "75分钟", "19:30-20:45", "≈575千卡", "中", "长距离匀速不冲刺，给周三-周四的高强度后留恢复；心率125-145"], ["周六", "慢跑 + 快走", "55+20分钟", "19:30-20:45", "≈610千卡", "中", "本周最后一跑，量到位即可；膝盖不适改快走"], ["周日", "轻松日·主动恢复快走", "75分钟", "19:30-20:45（或任意时段）", "≈360千卡", "低", "只走不跑，给身体恢复窗口；步数计入每日9000步；本周的“轻松日”不得改成跑步或游泳"]], "exnote": "周总运动消耗 ≈3840千卡（日均≈550千卡，第3周起完整量，按71kg估算，体重下降后会略降，每2周按新体重再核对）。第1周所有时长×80%（≈3070千卡/周），第2周×90%（≈3460千卡/周），第3周起100%（05表M列已按此换算）。每周训练6天 + 1个轻松日（周日快走），高强度日(周三、周四)不连排第三天(周五降为中强度)；单次运动（含热身拉伸）不超过75分钟，不要为多消耗临时加量；睡眠≥7h是恢复关键；高强度日注意环境与路面安全；若疲劳累积、膝盖/足踝疼痛、头晕、月经异常、静息心率比平时高≥10次/分，把当天降为快走或休息，别硬扛。如连续2周完成不到80%，不要硬撑，改用第二阶段的运动量（周≈2500–2800千卡）。", "water": [["07:00", "300ml", "起床后空腹（称重后）", "唤醒代谢、补水"], ["09:30", "300ml", "上午工作间隙", "维持代谢"], ["11:40", "300ml", "午餐前 20 分钟（12:00 午餐）", "增加饱腹、控制饭量"], ["14:00", "300ml", "下午", "防困、代谢"], ["15:30", "300ml", "加餐时（15:30 加餐）", "搭配加餐"], ["17:40", "300ml", "晚餐前 20 分钟（18:00 晚餐）", "控食欲"], ["19:30-20:45", "600ml", "运动中 + 运动后（每天都有运动）", "每15–20分钟小口喝，运动后补足"], ["21:30", "200ml", "睡前 1.5 小时（23:00 入睡）", "少量，避免夜起"]], "line": [["07:00", "起床·称重", "排尿后、早餐前空腹称重（同一台秤、同样着装），随后喝水300ml"], ["07:30", "早餐", "约320千卡；先吃蛋白和蔬菜再吃主食，每口嚼15–20次，用时≥15分钟"], ["12:00", "午餐", "约450千卡；11:40 先喝水300ml；按食谱克重称量"], ["15:30", "加餐", "约130千卡；加餐后到晚餐前只喝水/无糖茶"], ["18:00", "晚餐", "约445千卡；最晚18:30吃完，此后不再进食，只喝水/无糖茶"], ["19:30", "运动开始", "餐后1.5小时；按04表当日项目；先热身5分钟。泳池时间不同时，只要保证“餐后1.5–2小时、睡前2小时结束”即可调整"], ["20:30–20:45", "运动结束", "拉伸5分钟，运动中+后共补水600ml，不另加餐"], ["21:30", "睡前水", "200ml小口喝；放松、少刷手机"], ["23:00", "入睡", "睡眠≥7小时；睡不够当天把强度降一档（跑步改快走）"], ["睡前", "打卡", "填完05表当日全部格子，看“达标”列是否为“达标”"]], "wnote": "合计 2600ml（300×6 + 600 + 200）；出汗多、天热再额外补 300–500ml；单次不超过 500ml，避免短时间猛灌。备一瓶 500ml 水瓶随身，全天喝完 5 瓶多一点。尿色保持淡黄色即为补水充足。", "tgt": [60, 60, 55, 55, 45, 60, 60, 70, 70, 65, 65, 50, 70, 70, 75, 75, 70, 70, 55, 75, 75, 75, 75, 70, 70, 55, 75, 75, 75, 75, 70, 70, 55, 75, 75, 75, 75, 70, 70, 55, 75, 75, 75, 75, 70, 70, 55, 75, 75, 75, 75, 70, 70, 55, 75, 75], "ref": [71, 70.8, 70.6, 70.4, 70.2, 70, 69.8, 69.6, 69.4, 69.2, 69, 68.8, 68.6, 68.4, 68.3, 68.1, 68, 67.9, 67.7, 67.6, 67.5, 67.3, 67.2, 67, 66.9, 66.8, 66.6, 66.5, 66.4, 66.2, 66.1, 66, 65.9, 65.7, 65.6, 65.5, 65.3, 65.2, 65.1, 65, 64.8, 64.7, 64.6, 64.5, 64.3, 64.2, 64.1, 64, 63.9, 63.7, 63.6, 63.5, 63.4, 63.2, 63.1, 63], "road": [["阶段1 适应期", "第1-2周\n11/01–11/14", "71 → 68.4", "摄入1350千卡；运动按04表时长第1周×80%、第2周×90%循序加量；跑步日先用“跑2分钟+走1分钟”循环；预计含水分/糖原共减重约2.6kg（≈1.3kg/周），之后速度回落到0.8–0.95kg/周，属正常"], ["阶段2 稳降期", "第3-6周\n11/15–12/12", "68.4 → 64.7", "摄入1350千卡，完整执行04表运动（每周≈3840千卡）。节点：第4周末66.5kg。每周日晨空腹称重复盘：连续2周掉重<0.5kg → 先检查记录是否漏填、步数每天+1500，不再继续降摄入也不再加运动时长；任一周>1.2kg → 摄入提高到1450，并把一次高强度日降为中强度"], ["阶段3 收尾期", "第7-8周\n12/13–12/26", "64.7 → 63", "摄入仍1350千卡（体重降低后缺口缩小到≈900千卡，约0.8kg/周），任何一天不低于1200；疲劳累积时把周三或周四高强度改为中强度。第8周末评估：达标63kg后进入第二阶段或维持期（维持期每周增加约100千卡，逐步加到约1900–2100千卡并保留运动习惯）"], ["8周后如何到58kg（第二阶段）", "再约6–8周\n12/27起", "63 → 58", "8周后若需继续到58kg，可进入第二阶段（再约6–8周，每日缺口回到约700–800千卡）。理由：① 8周方案缺口≈1000千卡/天、运动≈550千卡/天已接近安全上限，不宜长期维持；② 体重降到63kg后同样饮食的缺口自然缩小，剩余约5kg按0.6–0.8kg/周需约6–8周；③ 缺口700–800（运动约350–400千卡/天，周≈2500–2800千卡，摄入1350–1400）更利于保肌肉、保月经和长期坚持；④ 进入前先用1周复盘体重、月经、睡眠和静息心率，出现红线则直接转入维持期"]], "tips": "提示：① 一个月内体重增加约15kg并不常见，其中可能含水肿、内分泌或压力相关因素，建议近期做一次体检（甲状腺功能、血糖/胰岛素、肝肾功能、性激素），排除问题后再执行本计划；② 若有月经严重紊乱、胰岛素抵抗疑似或任何慢性病，先咨询医生；③ 本计划针对健康成人设计，出现任一红线（月经推迟/停经、持续头晕心慌、静息心率比平时高≥10次/分持续3天、暴食冲动明显、睡眠<6小时）立即停止加量并就医/咨询营养师。"};
+const START_DEFAULT='2026-11-01', N=56, WATER_ML=[300,300,300,300,300,300,600,200];
+const KEY='dd_fatloss_v1';
+let S=JSON.parse(localStorage.getItem(KEY)||'null')||{start:START_DEFAULT,days:{}};
+const save=()=>localStorage.setItem(KEY,JSON.stringify(S));
+const $=s=>document.querySelector(s);
+const pad=n=>String(n).padStart(2,'0');
+const fmt=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const parse=s=>{const[a,b,c]=s.split('-').map(Number);return new Date(a,b-1,c)};
+const addDays=(s,n)=>{const d=parse(s);d.setDate(d.getDate()+n);return fmt(d)};
+const diff=(a,b)=>Math.round((parse(a)-parse(b))/864e5);
+const WD=['周日','周一','周二','周三','周四','周五','周六'];
+let cur=fmt(new Date());
+const idxOf=ds=>diff(ds,S.start); // 0-based plan day
+const wIdx=ds=>(parse(ds).getDay()+6)%7; // Mon=0
+function rec(ds){
+  if(!S.days[ds]) S.days[ds]={w:'',meals:[0,0,0,0],kc:[null,null,null,null],steps:'',exMin:'',exType:'',wn:[0,0,0,0,0,0,0,0],wx:0,note:''};
+  return S.days[ds];
+}
+function calc(ds){
+  const r=S.days[ds]; const i=idxOf(ds);
+  const tgt=(i>=0&&i<N)?D.tgt[i]:null; const dd=D.days[wIdx(ds)];
+  let kcal=0,any=false;
+  if(r){r.meals.forEach((m,j)=>{if(m){any=true;kcal+=(r.kc[j]!=null&&r.kc[j]!==''?+r.kc[j]:dd.meals[j].k)}});}
+  const water=r?r.wn.reduce((a,b,j)=>a+(b?WATER_ML[j]:0),0)+(+r.wx||0):0;
+  const steps=r?(+r.steps||0):0, mins=r?(+r.exMin||0):0;
+  const chk={kcal:any&&kcal>=1200&&kcal<=1450,steps:steps>=9000,ex:tgt!=null&&mins>=tgt,water:water>=2600};
+  const n=Object.values(chk).filter(Boolean).length;
+  return {kcal,any,water,steps,mins,tgt,chk,n,full:n===4};
+}
+function toast(t){const e=$('#toast');e.textContent=t;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',1400)}
+function phaseOf(i){return i<14?['阶段1 适应期','第1-2周']:i<42?['阶段2 稳降期','第3-6周']:['阶段3 收尾期','第7-8周']}
+function head(){
+  const i=idxOf(cur);
+  let t=`<b>${cur.slice(5).replace('-','月')}日 ${WD[parse(cur).getDay()]}</b>`;
+  if(i>=0&&i<N) t+=`<br>第${Math.floor(i/7)+1}周 · 第${i+1}/${N}天 · ${phaseOf(i)[0]}`;
+  else if(i<0) t+=`<br>距计划开始还有 ${-i} 天`; else t+='<br>8周计划已结束';
+  $('#hd').innerHTML=t;
+}
+function renderToday(){
+  const r=rec(cur),i=idxOf(cur),inPlan=i>=0&&i<N,dd=D.days[wIdx(cur)],ex=D.ex[wIdx(cur)];
+  const c=calc(cur);
+  const refW=inPlan?D.ref[i]:null;
+  let h='';
+  if(!inPlan) h+=`<div class="warn" style="margin-bottom:12px">${i<0?'今天还没到计划开始日（'+S.start+'），可以先看看今日安排。':'8周计划已结束，建议进入1周复盘，再决定第二阶段或维持期（见「进度」页）。'}</div>`;
+  h+=`<div class="card"><h2>今日达标 <span class="badge ${c.full?'ok':c.n>=2?'warn':''}">${c.full?'已达标 🎉':'完成 '+c.n+'/4'}</span></h2>
+  <div class="chips">
+  <div class="chip ${c.chk.kcal?'ok':''}"><b>${c.any?c.kcal:'--'}</b>摄入kcal<br>1200-1450</div>
+  <div class="chip ${c.chk.steps?'ok':''}"><b>${c.steps||'--'}</b>步数<br>≥9000</div>
+  <div class="chip ${c.chk.ex?'ok':''}"><b>${c.mins||'--'}</b>运动分钟<br>≥${c.tgt??'--'}</div>
+  <div class="chip ${c.chk.water?'ok':''}"><b>${c.water||'--'}</b>饮水ml<br>≥2600</div></div>
+  ${c.any&&c.kcal<1200?'<div class="warn" style="margin-top:8px">今天摄入低于1200千卡，不要靠少吃，请补足餐次（蛋白优先）。</div>':''}</div>`;
+  h+=`<div class="card"><h2>晨起称重 <small>${refW?'参考体重 '+refW+' kg':''}</small></h2>
+  <div class="row"><div><label>体重 kg（空腹）</label><input type="number" step="0.1" inputmode="decimal" id="in-w" value="${r.w}"></div>
+  <div><label>步数</label><input type="number" inputmode="numeric" id="in-steps" value="${r.steps}"></div></div></div>`;
+  h+=`<div class="card"><h2>今日食谱 <small>点圆圈=已吃，可改实际热量</small></h2>`;
+  dd.meals.forEach((m,j)=>{
+    h+=`<div class="meal ${r.meals[j]?'on':''}"><div class="cb ${r.meals[j]?'on':''}" data-m="${j}">${r.meals[j]?'✓':''}</div>
+    <div class="t"><b>${m.n}</b> <span>${m.t}</span><p>${m.f}</p></div>
+    <div class="k"><input type="number" inputmode="numeric" data-k="${j}" placeholder="${m.k}" value="${r.kc[j]??''}"><span style="font-size:11px;color:var(--sub)">kcal</span></div></div>`;
+  });
+  h+=`<div class="sm" style="margin-top:6px">${dd.tip}<br>缺食材？到「食谱」页看替代食物。</div></div>`;
+  h+=`<div class="card"><h2>今日运动 <small>目标 ≥${c.tgt??'--'} 分钟</small></h2>
+  <div class="exc"><b>${ex[1]}</b><div class="m">${ex[2]} · ${ex[4]} · ${ex[5]}强度 · ${ex[3]}</div><div class="m">${ex[6]}</div></div>
+  ${inPlan&&i<14?`<div class="sm">第${i<7?1:2}周按目标时长${i<7?'80':'90'}%执行，今日目标 ${c.tgt} 分钟。</div>`:''}
+  <div class="row" style="margin-top:8px"><div><label>实际运动分钟</label><input type="number" inputmode="numeric" id="in-exmin" value="${r.exMin}"></div>
+  <div><label>运动类型</label><input type="text" id="in-extype" placeholder="如：游泳" value="${r.exType}"></div></div>
+  ${inPlan?`<div style="margin-top:8px"><button class="btn g" id="fillex">按目标完成（${c.tgt}分钟）</button></div>`:''}</div>`;
+  const pct=Math.min(100,Math.round(c.water/26));
+  h+=`<div class="card"><h2>饮水 <small>${c.water} / 2600 ml</small></h2><div class="bar"><i style="width:${pct}%"></i></div>
+  <div class="water">${D.water.map((w,j)=>`<div class="wn ${r.wn[j]?'on':''}" data-w="${j}"><b>${w[0].slice(0,5)}</b>${w[1]}</div>`).join('')}
+  <div class="wn" id="wx"><b>+250</b>额外${r.wx?'('+r.wx+')':''}</div></div>
+  <div class="sm" style="margin-top:6px">点亮已喝的时间节点；多喝的点“+250”，长按清零。</div></div>`;
+  h+=`<div class="card"><h2>今日时间轴</h2><div class="tl">${D.line.map(l=>`<div data-t="${l[0]}"><b>${l[0]} ${l[1]}</b><span>${l[2]}</span></div>`).join('')}</div></div>`;
+  h+=`<div class="card"><h2>备注</h2><textarea rows="2" id="in-note" placeholder="心情、睡眠、特殊情况…">${r.note}</textarea></div>`;
+  $('#p-today').innerHTML=h;
+  bindToday();
+  // highlight current time node
+  if(cur===fmt(new Date())){const now=new Date(),nm=now.getHours()*60+now.getMinutes();let best=null;
+    document.querySelectorAll('.tl>div').forEach(e=>{const m=e.dataset.t.match(/(\d+):(\d+)/);if(m&&(+m[1]*60+ +m[2])<=nm)best=e});if(best)best.classList.add('now')}
+}
+function bindToday(){
+  const r=rec(cur);
+  const live=()=>{head();const c=calc(cur);S.days[cur]=r;save()};
+  const bindIn=(id,key)=>{const e=$(id);if(e)e.addEventListener('change',()=>{r[key]=e.value;save();renderToday()})};
+  bindIn('#in-w','w');bindIn('#in-steps','steps');bindIn('#in-exmin','exMin');
+  const nt=$('#in-extype');nt.addEventListener('change',()=>{r.exType=nt.value;save()});
+  const nn=$('#in-note');nn.addEventListener('change',()=>{r.note=nn.value;save()});
+  document.querySelectorAll('[data-m]').forEach(e=>e.onclick=()=>{r.meals[+e.dataset.m]^=1;save();renderToday()});
+  document.querySelectorAll('[data-k]').forEach(e=>e.addEventListener('change',()=>{r.kc[+e.dataset.k]=e.value===''?null:+e.value;save();renderToday()}));
+  document.querySelectorAll('[data-w]').forEach(e=>e.onclick=()=>{r.wn[+e.dataset.w]^=1;save();renderToday()});
+  const wx=$('#wx');let lp;
+  wx.onclick=()=>{r.wx=(+r.wx||0)+250;save();renderToday()};
+  wx.oncontextmenu=e=>{e.preventDefault();r.wx=0;save();renderToday()};
+  wx.ontouchstart=()=>{lp=setTimeout(()=>{r.wx=0;save();renderToday();toast('额外饮水已清零')},700)};
+  wx.ontouchend=wx.ontouchmove=()=>clearTimeout(lp);
+  const f=$('#fillex');if(f)f.onclick=()=>{r.exMin=calc(cur).tgt;if(!r.exType)r.exType=D.ex[wIdx(cur)][1].split('（')[0];save();renderToday();toast('已记录运动')};
+}
+function renderPlan(){
+  let h=`<div class="card"><h2>7天循环食谱 <small>每日≈1350kcal</small></h2>`;
+  D.days.forEach((d,k)=>{
+    h+=`<details ${wIdx(cur)===k?'open':''}><summary>${d.d} · ${d.meals.reduce((a,m)=>a+m.k,0)}kcal</summary>`;
+    d.meals.forEach(m=>h+=`<div style="margin:8px 0"><b>${m.n}</b> <span class="sm">${m.t} · ${m.k}kcal</span><div style="font-size:13px">${m.f}</div></div>`);
+    h+=`<div class="exc"><b>🔁 替代食物（缺货/吃腻时）</b><div class="m" style="white-space:pre-line;color:var(--tx)">${d.sub.join('\n')}</div></div><div class="sm">${d.tip}</div></details>`;
+  });
+  h+=`</div><div class="card"><h2>铁律</h2><div class="sm" style="color:var(--tx)">${D.rule}</div></div>`;
+  h+=`<div class="card"><h2>食物替代对照表</h2><input type="text" id="q" placeholder="搜索：鸡胸 / 三文鱼 / 燕麦…" style="margin-bottom:8px"><div id="subs"></div></div>`;
+  $('#p-plan').innerHTML=h;
+  const draw=q=>{$('#subs').innerHTML=D.subs.filter(s=>!q||s.join(' ').includes(q)).map(s=>`<details><summary>${s[0]} · ${s[1]}</summary><div class="sm" style="color:var(--tx)">首选：${s[2]}\n次选：${s[3]}\n换算：${s[4]}　蛋白：${s[5]}g\n注意：${s[6]}</div></details>`).join('')||'<div class="sm">没有匹配项</div>'};
+  draw('');$('#q').oninput=e=>draw(e.target.value.trim());
+}
+function renderTrain(){
+  let h=`<div class="card"><h2>每周运动安排 <small>游泳3+跑步3+快走1</small></h2>`;
+  D.ex.forEach((e,k)=>h+=`<div class="exc" style="${wIdx(cur)===k?'':'opacity:.85'}"><b>${e[0]}　${e[1]}</b><div class="m">${e[2]} · ${e[4]} · ${e[5]}强度 · ${e[3]}</div><div class="m">${e[6]}</div></div>`);
+  h+=`</div><div class="card"><h2>说明与降档规则</h2><div class="sm" style="color:var(--tx)">${D.exnote}</div></div>`;
+  h+=`<div class="card"><h2>饮水时间表</h2><table><tr><th>时间</th><th>量</th><th>说明</th></tr>${D.water.map(w=>`<tr><td>${w[0]}</td><td>${w[1]}</td><td>${w[2]}</td></tr>`).join('')}</table><div class="sm" style="margin-top:8px">${D.wnote}</div></div>`;
+  $('#p-train').innerHTML=h;
+}
+function renderTrend(){
+  const today=fmt(new Date());
+  // weight series
+  const pts=[];for(let i=0;i<N;i++){const r=S.days[addDays(S.start,i)];if(r&&r.w!=='')pts.push([i,+r.w])}
+  const W=320,H=160,L=30,B=18,T=8,R=6, ymin=62,ymax=72;
+  const x=i=>L+(W-L-R)*i/(N-1), y=v=>T+(H-T-B)*(1-(Math.min(ymax,Math.max(ymin,v))-ymin)/(ymax-ymin));
+  let svg=`<svg viewBox="0 0 ${W} ${H}" width="100%">`;
+  for(let v=62;v<=72;v+=2)svg+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${L-4}" y="${y(v)+3}" font-size="9" fill="var(--sub)" text-anchor="end">${v}</text>`;
+  [0,14,28,42,55].forEach(i=>svg+=`<text x="${x(i)}" y="${H-4}" font-size="9" fill="var(--sub)" text-anchor="middle">${i===55?'D56':'D'+(i+1)}</text>`);
+  svg+=`<polyline fill="none" stroke="var(--sub)" stroke-dasharray="4 3" stroke-width="1.5" points="${D.ref.map((v,i)=>x(i)+','+y(v)).join(' ')}"/>`;
+  if(pts.length)svg+=`<polyline fill="none" stroke="var(--pri)" stroke-width="2.5" points="${pts.map(p=>x(p[0])+','+y(p[1])).join(' ')}"/>`+pts.map(p=>`<circle cx="${x(p[0])}" cy="${y(p[1])}" r="3" fill="var(--pri)"/>`).join('');
+  svg+='</svg>';
+  const last=pts.length?pts[pts.length-1]:null;
+  let ok=0,part=0;for(let i=0;i<N;i++){const c=S.days[addDays(S.start,i)]?calc(addDays(S.start,i)):null;if(c){if(c.full)ok++;else if(c.n>0&&c.any)part++}}
+  let h=`<div class="card"><h2>体重曲线 <small>虚线=参考体重</small></h2>${svg}
+  <div class="chips" style="margin-top:8px">
+   <div class="chip"><b>${last?last[1]:'--'}</b>最新kg</div>
+   <div class="chip"><b>${pts.length?(71-last[1]).toFixed(1):'--'}</b>已减kg</div>
+   <div class="chip"><b>${last?(last[1]-63).toFixed(1):'--'}</b>距63kg</div>
+   <div class="chip"><b>${ok}</b>达标天数</div></div>
+   ${last&&last[1]<D.ref[last[0]]-1.5?'<div class="warn" style="margin-top:8px">掉得比参考线快很多，请确认没有少吃/脱水，摄入不要低于1200千卡。</div>':''}</div>`;
+  h+=`<div class="card"><h2>56天打卡日历 <small>绿=全达标 黄=部分</small></h2><div class="grid">${['一','二','三','四','五','六','日'].map(w=>`<div class="wk">${w}</div>`).join('')}`;
+  const off=(parse(S.start).getDay()+6)%7;h+='<div></div>'.repeat(off);
+  for(let i=0;i<N;i++){const ds=addDays(S.start,i),c=S.days[ds]?calc(ds):null;
+    h+=`<div class="gd ${c&&c.full?'ok':c&&c.any&&c.n>0?'part':''} ${ds===today?'today':''} ${ds>today?'fut':''}" data-go="${ds}"><b>${i+1}</b>${ds.slice(5)}</div>`}
+  h+=`</div></div>`;
+  h+=`<div class="card"><h2>路线图</h2>${D.road.map(r=>`<details><summary>${r[0]} · ${r[2]}kg</summary><div class="sm" style="color:var(--tx)">${r[1].replace(/\n/g,' ')}\n${r[3]}</div></details>`).join('')}</div>`;
+  h+=`<div class="card"><h2>健康提醒</h2><div class="warn">${D.tips}</div></div>`;
+  h+=`<div class="card"><h2>数据与设置</h2>
+   <label>计划开始日期</label><input type="date" id="in-start" value="${S.start}">
+   <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"><button class="btn g" id="exp">导出备份</button><button class="btn g" id="csv">导出CSV</button><button class="btn g" id="imp">导入备份</button><button class="btn r" id="clr">清空数据</button></div>
+   <input type="file" id="file" accept=".json" style="display:none">
+   <div class="sm" style="margin-top:8px">数据只保存在本机浏览器，不会上传。换手机或清理浏览器前请先“导出备份”。iPhone：Safari → 分享 → 添加到主屏幕，就能像App一样打开。</div></div>`;
+  $('#p-trend').innerHTML=h;
+  document.querySelectorAll('[data-go]').forEach(e=>e.onclick=()=>{cur=e.dataset.go;go('today')});
+  $('#in-start').onchange=e=>{if(e.target.value){S.start=e.target.value;save();renderAll();toast('已更新开始日期')}};
+  $('#exp').onclick=()=>dl('点点减脂备份_'+today+'.json',JSON.stringify(S),'application/json');
+  $('#csv').onclick=()=>{let t='\ufeff日期,体重kg,早餐,午餐,加餐,晚餐,总摄入kcal,步数,运动分钟,运动类型,饮水ml,达标,备注\n';
+    for(let i=0;i<N;i++){const ds=addDays(S.start,i),r=S.days[ds];if(!r)continue;const c=calc(ds),dd=D.days[wIdx(ds)];
+      const mk=j=>r.meals[j]?(r.kc[j]!=null?r.kc[j]:dd.meals[j].k):'';
+      t+=[ds,r.w,mk(0),mk(1),mk(2),mk(3),c.any?c.kcal:'',r.steps,r.exMin,r.exType,c.water,c.full?'达标':'加油','"'+(r.note||'').replace(/"/g,'""')+'"'].join(',')+'\n'}
+    dl('点点减脂打卡_'+today+'.csv',t,'text/csv')};
+  $('#imp').onclick=()=>$('#file').click();
+  $('#file').onchange=e=>{const f=e.target.files[0];if(!f)return;f.text().then(t=>{try{const o=JSON.parse(t);if(!o.days)throw 0;S=o;save();renderAll();toast('导入成功')}catch(_){toast('文件格式不对')}})};
+  $('#clr').onclick=()=>{if(confirm('确定清空所有打卡记录？此操作不可恢复，建议先导出备份。')){S={start:S.start,days:{}};save();renderAll()}};
+}
+function dl(name,txt,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([txt],{type}));a.download=name;document.body.appendChild(a);a.click();a.remove()}
+function go(p){document.querySelectorAll('.pg').forEach(e=>e.classList.toggle('on',e.id==='p-'+p));
+  document.querySelectorAll('.tabbar button').forEach(e=>e.classList.toggle('on',e.dataset.p===p));
+  $('.nav').style.display=p==='today'?'flex':'none';renderAll();window.scrollTo(0,0)}
+function renderAll(){head();renderToday();renderPlan();renderTrain();renderTrend()}
+document.querySelectorAll('.tabbar button').forEach(b=>b.onclick=()=>go(b.dataset.p));
+$('#prev').onclick=()=>{cur=addDays(cur,-1);renderAll()};
+$('#next').onclick=()=>{cur=addDays(cur,1);renderAll()};
+renderAll();
+</script>
+</body>
+</html>
